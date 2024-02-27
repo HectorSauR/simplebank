@@ -4,6 +4,7 @@ packages:
     path: "./db/sqlc/"
     queries: "./db/query/"
     schema: "./db/migration/"
+    sql_package: "database/sql"
     emit_json_tags: true
     emit_prepared_queries: false
     emit_interface: false
