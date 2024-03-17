@@ -43,7 +43,12 @@ func TestGetEntry(t *testing.T) {
 	account1 := createRandomAccount(t)
 	entry1 := createRandomEntry(t, account1.ID, 0)
 
-	entry2, err := testQueries.GetEntry(context.Background(), entry1.ID)
+	args := GetEntryParams{
+		ID:        entry1.ID,
+		AccountID: entry1.AccountID,
+	}
+
+	entry2, err := testQueries.GetEntry(context.Background(), args)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, entry2)

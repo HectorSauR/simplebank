@@ -37,11 +37,17 @@ func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry
 
 const getEntry = `-- name: GetEntry :one
 SELECT id, account_id, amount, created_at FROM entries
-WHERE id = $1 LIMIT 1
+WHERE id=$1 
+    AND account_id=$2 LIMIT 1
 `
 
-func (q *Queries) GetEntry(ctx context.Context, id int64) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, getEntry, id)
+type GetEntryParams struct {
+	ID        int64 `json:"id"`
+	AccountID int64 `json:"account_id"`
+}
+
+func (q *Queries) GetEntry(ctx context.Context, arg GetEntryParams) (Entry, error) {
+	row := q.db.QueryRowContext(ctx, getEntry, arg.ID, arg.AccountID)
 	var i Entry
 	err := row.Scan(
 		&i.ID,
@@ -54,7 +60,7 @@ func (q *Queries) GetEntry(ctx context.Context, id int64) (Entry, error) {
 
 const listEntry = `-- name: ListEntry :many
 SELECT id, account_id, amount, created_at FROM entries
-WHERE account_id = $1
+WHERE account_id=$1
 ORDER BY id
 LIMIT $2
 OFFSET $3

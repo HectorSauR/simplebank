@@ -11,6 +11,11 @@ type Server struct {
 	router *gin.Engine
 }
 
+type Pagination struct {
+	PageID   int32 `form:"page_id" binding:"required"`
+	PageSize int32 `form:"page_size" binding:"required,min=5,max=10"`
+}
+
 func NewServer(store *db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
@@ -20,6 +25,11 @@ func NewServer(store *db.Store) *Server {
 	router.GET("/accounts/:id", server.getAccount)
 	router.GET("/accounts", server.listAccount)
 	router.PUT("/accounts/:id", server.updateAccount)
+
+	//entries
+	router.POST("/accounts/:id/entries", server.createEntry)
+	router.GET("/accounts/:id/entries/:entryId", server.getAccountEntries)
+	router.GET("/accounts/:id/entries", server.listEntry)
 
 	server.router = router
 	return server
