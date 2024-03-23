@@ -7,7 +7,7 @@ import (
 
 // Server serves HTTP requests for our banking service
 type Server struct {
-	store  *db.Store
+	store  db.Store
 	router *gin.Engine
 }
 
@@ -16,7 +16,7 @@ type Pagination struct {
 	PageSize int32 `form:"page_size" binding:"required,min=5,max=10"`
 }
 
-func NewServer(store *db.Store) *Server {
+func NewServer(store db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
 
