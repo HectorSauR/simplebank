@@ -69,7 +69,7 @@ func (server *Server) listAccount(ctx *gin.Context) {
 	}
 
 	arg := db.ListAccountParams{
-		Limit:  pagination.PageSize - 1,
+		Limit:  pagination.PageSize,
 		Offset: (pagination.PageID - 1) * pagination.PageSize,
 	}
 	accounts, err := server.store.ListAccount(ctx, arg)
