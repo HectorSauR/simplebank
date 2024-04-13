@@ -26,6 +26,9 @@ func NewServer(store db.Store) *Server {
 		v.RegisterValidation("currency", validCurrency)
 	}
 
+	//user
+	router.POST("/users", server.createUser)
+
 	//accounnts
 	router.POST("/accounts", server.createAccount)
 	router.GET("/accounts/:id", server.getAccount)
@@ -38,7 +41,7 @@ func NewServer(store db.Store) *Server {
 	router.GET("/accounts/:id/entries", server.listEntry)
 
 	//transfer
-	router.POST("/transfer", server.createTransfer)
+	router.POST("/transfers", server.createTransfer)
 	// router.GET("/accounts/:id/entries/:entryId", server.getAccountEntries)
 	// router.GET("/accounts/:id/entries", server.listEntry)
 
