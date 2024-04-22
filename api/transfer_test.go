@@ -325,14 +325,14 @@ func TestCreateTransferAPI(t *testing.T) {
 			tc.buildStubs(store)
 
 			// start test server and send requests
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			// Marshal body data to JSON
 			data, err := json.Marshal(tc.body)
 			require.NoError(t, err)
 
-			url := "/transfer"
+			url := "/transfers"
 			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
 			require.NoError(t, err)
 
